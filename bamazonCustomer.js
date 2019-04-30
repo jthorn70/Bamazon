@@ -28,34 +28,46 @@ function readDatabase() {
     })
     startPrompt();
 };
-
-var products = []
+var id = [];
+var products = [];
+var departments = [];
+var price = [];
+var stock = [];
 
 
 function startPrompt() {
-    connection.query("SELECT product_name FROM products", function(err, data) {
+    connection.query("SELECT item_id, product_name, department_name, price, stock_quantity FROM products", function(err, data) {
         if (err) throw err;
         
         for (var i=0; i<data.length; i++){
+            id.push(data[i].item_id);
             products.push(data[i].product_name);
-            
-        }
+            departments.push(data[i].department_name);
+            price.push(data[i].price);
+            stock.push(data[i].stock_quantity)
 
-        console.table([
-            {
-              id: 'foo',
-              age: 10
-            }, {
-              name: 'bar',
-              age: 20
-            }
-          ]);
+            console.table([
+                {
+                  id: data[i].item_id,
+                  name: data[i].product_name,
+                  department: data[i].department_name,
+                  price: data[i].price,
+                  stock: data[i].stock_quantity
+                }
+              ]);
+
+            
+
+        }
+       
+
+
           
           // prints
-          name  age
-          ----  ---
-          foo   10
-          bar   20
+        //   name  age
+        //   ----  ---
+        //   foo   10
+        //   bar   20
         // console.log("Here is a list of our products!")
         // console.log("--------------------------------")
         // console.log()
